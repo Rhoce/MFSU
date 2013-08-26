@@ -106,7 +106,7 @@ repeat
       monitor.setCursorPos(4, 3)
       monitor.setBackgroundColor(colors.white)
       monitor.setTextColor(colors.black)
-      monitor.write("Montr�al  Toto:"..http.get("http://www.timeapi.org/est/in+one+hour?format=%20%25I:%25M").readAll().." ")
+      monitor.write("Montreal :"..http.get("http://www.timeapi.org/est/in+one+hour?format=%20%25I:%25M").readAll().." ")
       secondes = 0
     end
     monitor.setCursorPos(70, 3)
