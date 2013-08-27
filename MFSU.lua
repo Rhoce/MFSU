@@ -2,10 +2,10 @@ local monitor = peripheral.wrap("top")
 local net = peripheral.wrap("left")
 term.redirect(monitor)
 
-couleurMFSU2 = colors.white
-couleurMFSU3 = colors.orange
-couleurMFSU4 = colors.magenta
-couleurMFSU5 = colors.lightBlue
+couleurMFSU2 = colors.lightBlue
+couleurMFSU3 = colors.magenta
+couleurMFSU4 = colors.white
+couleurMFSU5 = colors.orange
 statutMFSU2 = false
 statutMFSU3 = false
 statutMFSU4 = false
@@ -13,6 +13,7 @@ statutMFSU5 = false
 signalComplet = 0
 clicX = 0
 clicY = 0
+secondes = 60
 
 function Capacite(MFSU)
   Cap = net.callRemote(MFSU, "getCapacity")
@@ -34,15 +35,32 @@ ecr = paintutils.loadImage("screen")
 paintutils.drawImage(ecr, 1, 1)
 end
 
+function CouleurTexteMFSU(idMFSU)
+  couleur = colors.red
+  if idMFSU = "MFSU 2" and statutMFSU2 then
+    couleur = colors.lime
+  end
+  if idMFSU = "MFSU 3" and statutMFSU3 then
+    couleur = colors.lime
+  end
+  if idMFSU = "MFSU 4" and statutMFSU4 then
+    couleur = colors.lime
+  end
+  if idMFSU = "MFSU 5" and statutMFSU5 then
+    couleur = colors.lime
+  end
+  return couleur
+end
+
 function CaseMFSU(x, y, idMFSU, idBatbox)
     monitor.setCursorPos(x + math.ceil((23 / 2) - (idMFSU:len() / 2)) - 1, y + 1)
     monitor.setBackgroundColor(colors.white)
-    monitor.setTextColor(colors.black)
+    monitor.setTextColor(CouleurTexteMFSU(idMFSU))
     monitor.write(idMFSU)
     Charg = " "..Charge(idBatbox).." "
     monitor.setCursorPos(x + math.ceil((23 / 2) - (Charg:len() / 2)) - 1, y + 3)
     monitor.setBackgroundColor(colors.white)
-    monitor.setTextColor(colors.black)
+    monitor.setTextColor(CouleurTexteMFSU(idMFSU))
     monitor.write(Charg)
 end
 
@@ -88,31 +106,40 @@ function ClicMFSU(x, y)
   if statutMFSU5 == true then
     signalComplet = signalComplet + couleurMFSU5
   end
+  rs.setBundledOutput("bottom", signalComplet)  
+end
+
+function HeureMontreal()
+  if secondes == 60 then
+    monitor.setCursorPos(4, 3)
+    monitor.setBackgroundColor(colors.white)
+    monitor.setTextColor(colors.black)
+    monitor.write("Montreal :"..http.get("http://www.timeapi.org/est/in+one+hour?format=%20%25I:%25M").readAll().." ")
+    secondes = 0
+  end
+end
+
+function HeureMinecraft()
+  monitor.setCursorPos(70, 3)
+  monitor.setBackgroundColor(colors.white)
+  monitor.setTextColor(colors.black)
+  monitor.write("Minecraft : "..textutils.formatTime(os.time(), true).." ")
 end
 
 monitor.setTextScale(0.5)
 TrameEcran()
-secondes = 60
 
 repeat
   os.startTimer(1)
   event, p1, p2, p3 = os.pullEvent()
   if event == "monitor_touch" then
     ClicMFSU(p2, p3)
-    rs.setBundledOutput("bottom", signalComplet)
   end
   if event=="timer" then
     if secondes == 60 then
-      monitor.setCursorPos(4, 3)
-      monitor.setBackgroundColor(colors.white)
-      monitor.setTextColor(colors.black)
-      monitor.write("Montreal :"..http.get("http://www.timeapi.org/est/in+one+hour?format=%20%25I:%25M").readAll().." ")
-      secondes = 0
+      HeureMontreal()
     end
-    monitor.setCursorPos(70, 3)
-    monitor.setBackgroundColor(colors.white)
-    monitor.setTextColor(colors.black)
-    monitor.write("Minecraft : "..textutils.formatTime(os.time(), true).." ")
+    HeureMinecraft()
     CaseMFSU(27, 6, "MFSU Solaire", "batbox_1")
     CaseMFSU(52, 6, "MFSU 2", "batbox_2")
     CaseMFSU(77, 6, "MFSU 3", "batbox_3")
