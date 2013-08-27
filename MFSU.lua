@@ -129,6 +129,14 @@ function HeureMinecraft()
   monitor.write("Minecraft : "..textutils.formatTime(os.time(), true).." ")
 end
 
+function ControleMFSU()
+    CaseMFSU(27, 6, "MFSU Solaire", "batbox_1")
+    CaseMFSU(52, 6, "MFSU 2", "batbox_2")
+    CaseMFSU(77, 6, "MFSU 3", "batbox_3")
+    CaseMFSU(27, 14, "MFSU 4", "batbox_4")
+    CaseMFSU(52, 14, "MFSU 5", "batbox_5")
+end
+
 monitor.setTextScale(0.5)
 TrameEcran()
 
@@ -143,11 +151,7 @@ repeat
       HeureMontreal()
     end
     HeureMinecraft()
-    CaseMFSU(27, 6, "MFSU Solaire", "batbox_1")
-    CaseMFSU(52, 6, "MFSU 2", "batbox_2")
-    CaseMFSU(77, 6, "MFSU 3", "batbox_3")
-    CaseMFSU(27, 14, "MFSU 4", "batbox_4")
-    CaseMFSU(52, 14, "MFSU 5", "batbox_5")
+    ControleMFSU()
     secondes = secondes + 0.5
   end
 until event=="char" and p1=="x"
