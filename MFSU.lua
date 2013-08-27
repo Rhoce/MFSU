@@ -49,6 +49,9 @@ function CouleurTexteMFSU(idMFSU)
   if idMFSU == "MFSU 5" and statutMFSU5 then
     couleur = colors.lime
   end
+  if idMFSU == "MFSU Solaire" and os.time() > 6 and os.time() < 18 then
+    couleur = colors.lime
+  end
   return couleur
 end
 
