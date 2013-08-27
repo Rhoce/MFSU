@@ -37,16 +37,16 @@ end
 
 function CouleurTexteMFSU(idMFSU)
   couleur = colors.red
-  if idMFSU = "MFSU 2" and statutMFSU2 then
+  if idMFSU == "MFSU 2" and statutMFSU2 then
     couleur = colors.lime
   end
-  if idMFSU = "MFSU 3" and statutMFSU3 then
+  if idMFSU == "MFSU 3" and statutMFSU3 then
     couleur = colors.lime
   end
-  if idMFSU = "MFSU 4" and statutMFSU4 then
+  if idMFSU == "MFSU 4" and statutMFSU4 then
     couleur = colors.lime
   end
-  if idMFSU = "MFSU 5" and statutMFSU5 then
+  if idMFSU == "MFSU 5" and statutMFSU5 then
     couleur = colors.lime
   end
   return couleur
